@@ -1,3 +1,5 @@
+using System.Windows.Forms;
+
 namespace Sistema_Medico
 {
     public partial class Form1 : Form
@@ -5,8 +7,6 @@ namespace Sistema_Medico
         public Form1()
         {
             InitializeComponent();
-            dgvLista.Columns[0].SortMode = DataGridViewColumnSortMode.Automatic;
-            dgvLista.Sort(dgvLista.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -38,6 +38,10 @@ namespace Sistema_Medico
                 if(codigoIngresado == codigoRecibido)
                 {
                     dgvLista.Rows.RemoveAt(cantidadFilas);
+                    MessageBox.Show("¡Medicamento Removido!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                } else if (cantidadFilas + 1 == dgvLista.RowCount)
+                {
+                    MessageBox.Show("¡El codigo que ha ingresado no existe!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
@@ -59,6 +63,54 @@ namespace Sistema_Medico
                     MessageBox.Show("¡El medicamento que ha ingresado no existe!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
+        }
+
+        private void btnOrdenar_Click(object sender, EventArgs e)
+        {
+            List<DataGridViewRowWrapper> rows = new List<DataGridViewRowWrapper>();
+            foreach (DataGridViewRow row in dgvLista.Rows)
+            {
+                rows.Add(new DataGridViewRowWrapper(row));
+            }
+            int n = rows.Count;
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int j = 0; j < n - i - 1; j++)
+                {
+                    if (rows[j].CompareTo(rows[j + 1]) > 0)
+                    {
+                        DataGridViewRowWrapper temp = rows[j];
+                        rows[j] = rows[j + 1];
+                        rows[j + 1] = temp;
+                    }
+                }
+            }
+            dgvLista.Rows.Clear();
+            foreach (DataGridViewRowWrapper rowWrapper in rows)
+            {
+                dgvLista.Rows.Add(rowWrapper.Row);
+            }
+
+        }
+        class DataGridViewRowWrapper : IComparable<DataGridViewRowWrapper>
+        {
+            private DataGridViewRow _row;
+
+            public DataGridViewRowWrapper(DataGridViewRow row)
+            {
+                _row = row;
+            }
+
+            public int CompareTo(DataGridViewRowWrapper other)
+            {
+                return string.Compare(_row.Cells[1].Value.ToString(), other._row.Cells[1].Value.ToString());
+            }
+
+            public DataGridViewRow Row
+            {
+                get { return _row; }
+            }
+
         }
     }
 }

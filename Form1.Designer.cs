@@ -83,9 +83,14 @@
             this.btnOrdenar.TabIndex = 1;
             this.btnOrdenar.Text = "Ordenar";
             this.btnOrdenar.UseVisualStyleBackColor = true;
+            this.btnOrdenar.Click += new System.EventHandler(this.btnOrdenar_Click);
             // 
             // dgvLista
             // 
+            this.dgvLista.AllowUserToAddRows = false;
+            this.dgvLista.AllowUserToDeleteRows = false;
+            this.dgvLista.AllowUserToResizeColumns = false;
+            this.dgvLista.AllowUserToResizeRows = false;
             this.dgvLista.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvLista.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvLista.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -98,6 +103,7 @@
             this.dgvLista.Location = new System.Drawing.Point(9, 28);
             this.dgvLista.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvLista.Name = "dgvLista";
+            this.dgvLista.ReadOnly = true;
             this.dgvLista.RowHeadersWidth = 51;
             this.dgvLista.RowTemplate.Height = 29;
             this.dgvLista.Size = new System.Drawing.Size(723, 648);
