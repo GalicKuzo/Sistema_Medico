@@ -8,7 +8,7 @@ namespace Sistema_Medico
         {
             InitializeComponent();
         }
-
+        //Agregar Medicamento
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             int n = dgvLista.Rows.Add();
@@ -28,24 +28,25 @@ namespace Sistema_Medico
         {
 
         }
-
+        //Eliminacion de Medicamento
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             string codigoIngresado = Convert.ToString(txtCodigoElm.Text);
             for(int cantidadFilas = 0; cantidadFilas < dgvLista.RowCount; cantidadFilas++)
             {
                 string codigoRecibido = Convert.ToString(dgvLista.Rows[cantidadFilas].Cells[0].Value);
-                if(codigoIngresado == codigoRecibido)
+                if(codigoIngresado.ToUpper() == codigoRecibido.ToUpper())
                 {
                     dgvLista.Rows.RemoveAt(cantidadFilas);
                     MessageBox.Show("¡Medicamento Removido!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
                 } else if (cantidadFilas + 1 == dgvLista.RowCount)
                 {
                     MessageBox.Show("¡El codigo que ha ingresado no existe!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
-
+        //Buscar Medicamento
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             dgvLista.ClearSelection();
@@ -64,7 +65,7 @@ namespace Sistema_Medico
                 }
             }
         }
-
+        //Ordenar Medicamentos basandose en el nombre alfabeticamente
         private void btnOrdenar_Click(object sender, EventArgs e)
         {
             List<DataGridViewRowWrapper> rows = new List<DataGridViewRowWrapper>();
@@ -73,6 +74,7 @@ namespace Sistema_Medico
                 rows.Add(new DataGridViewRowWrapper(row));
             }
             int n = rows.Count;
+            //Metodo Burbuja (Metodos de Ordenamiento)
             for (int i = 0; i < n - 1; i++)
             {
                 for (int j = 0; j < n - i - 1; j++)
@@ -92,6 +94,7 @@ namespace Sistema_Medico
             }
 
         }
+        //Funcion para ayudar al ordenamiento de datos (Grea una copia de los datos y luego lo compara con la lista actual)
         class DataGridViewRowWrapper : IComparable<DataGridViewRowWrapper>
         {
             private DataGridViewRow _row;
@@ -117,7 +120,7 @@ namespace Sistema_Medico
         {
 
         }
-
+        //Condicion para evitar letras y puntos en el ingreso de datos Cantidad
         private void txtCantidad_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!Char.IsDigit(e.KeyChar) && e.KeyChar != 8) 
@@ -125,7 +128,7 @@ namespace Sistema_Medico
                 e.Handled = true;
             }
         }
-
+        //Condicion para evitar letras en el ingreso de datos Precio
         private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != 8)
