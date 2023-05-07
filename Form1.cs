@@ -5,6 +5,8 @@ namespace Sistema_Medico
         public Form1()
         {
             InitializeComponent();
+            dgvLista.Columns[0].SortMode = DataGridViewColumnSortMode.Automatic;
+            dgvLista.Sort(dgvLista.Columns[0], System.ComponentModel.ListSortDirection.Ascending);
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -25,6 +27,38 @@ namespace Sistema_Medico
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            string codigoIngresado = Convert.ToString(txtCodigoElm.Text);
+            for(int cantidadFilas = 0; cantidadFilas < dgvLista.RowCount; cantidadFilas++)
+            {
+                string codigoRecibido = Convert.ToString(dgvLista.Rows[cantidadFilas].Cells[0].Value);
+                if(codigoIngresado == codigoRecibido)
+                {
+                    dgvLista.Rows.RemoveAt(cantidadFilas);
+                }
+            }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            dgvLista.ClearSelection();
+            string nombreIngresado = Convert.ToString(txtNombreBusc.Text);
+            for (int cantidadFilas = 0; cantidadFilas < dgvLista.RowCount; cantidadFilas++)
+            {
+                string nombreRecibido = Convert.ToString(dgvLista.Rows[cantidadFilas].Cells[1].Value);
+                if (nombreIngresado.ToUpper() == nombreRecibido.ToUpper())
+                {
+                    dgvLista.Rows[cantidadFilas].Selected = true;
+                    MessageBox.Show("¡Medicamento Encontrado!","",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                } else if (cantidadFilas + 1 == dgvLista.RowCount )
+                {
+                    MessageBox.Show("¡El medicamento que ha ingresado no existe!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
         }
     }
 }
