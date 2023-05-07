@@ -12,10 +12,10 @@ namespace Sistema_Medico
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             int n = dgvLista.Rows.Add();
-            string codigo = Convert.ToString(txtCodigo.Text);
-            string nombre = Convert.ToString(txtNombre.Text);
-            string cantidad = Convert.ToString(txtCantidad.Text);
-            string precio = Convert.ToString(txtPrecio.Text);
+            string codigo = Convert.ToString(txtCodigo.Text).ToUpper();
+            string nombre = Convert.ToString(txtNombre.Text).ToUpper();
+            string cantidad = Convert.ToString(txtCantidad.Text).ToUpper();
+            string precio = Convert.ToString(txtPrecio.Text).ToUpper();
             double montoInvertido = Int32.Parse(cantidad) * Double.Parse(precio);
             dgvLista.Rows[n].Cells[0].Value = codigo;
             dgvLista.Rows[n].Cells[1].Value = nombre;
@@ -111,6 +111,27 @@ namespace Sistema_Medico
                 get { return _row; }
             }
 
+        }
+
+        private void txtCantidad_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCantidad_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar) && e.KeyChar != 8) 
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
         }
     }
 }
